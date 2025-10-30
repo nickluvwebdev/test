@@ -1,0 +1,130 @@
+<!--
+AI Declaration:
+I used ChatGPT only to clarify HTML semantic tags.  
+No code was directly copied without modification.
+
+Reflection:
+Using Tailwind’s utility classes helped me build layouts faster, especially with flex/grid, spacing, and typography. 
+AI guided me to the right class combinations so I didn’t need a separate CSS file.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Create an Invoice</title>
+</head>
+<body class="bg-gray-50 text-slate-800 font-sans">
+
+  <!-- NAV -->
+  <header class="bg-white border-b">
+    <nav class="max-w-6xl mx-auto px-6 py-3 grid grid-cols-3 items-center">
+      <div class="flex items-center">
+        <a href="/html/index.html"><img src="/assets/logo.png" alt="logo" class="w-8 h-8" /></a>
+      </div>
+      <div class="hidden md:flex justify-center items-center gap-8 text-sm font-medium text-slate-700">
+        <a href="/html/invoice.html" class="hover:text-blue-600">Invoice</a>
+        <a href="#" class="hover:text-blue-600">Quotation</a>
+        <a href="#" class="hover:text-blue-600">About Us</a>
+      </div>
+      <div class="flex justify-end">
+        <a href="/html/login.html" class="text-sm font-medium text-slate-600 hover:text-blue-600">Log out →</a>
+      </div>
+    </nav>
+
+    <!-- BANNER -->
+    <section class="h-40 md:h-52 w-full bg-center bg-cover flex items-center justify-center"
+             style="background-image: url('/assets/bg2.png');">
+      <h1 class="text-2xl md:text-3xl font-bold text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.35)]">
+        Create a New Invoice
+      </h1>
+    </section>
+  </header>
+
+  <!-- MAIN -->
+  <main class="max-w-5xl mx-auto px-6 py-8">
+    <form class="bg-white rounded-lg shadow p-6 md:p-8 border mx-auto max-w-3xl">
+      <h2 class="text-xl font-semibold mb-6">Create New Invoice</h2>
+
+      <div class="space-y-5">
+        <div>
+          <label for="client_id" class="block text-sm font-medium text-slate-700">Client ID</label>
+          <input id="client_id" name="client_id" type="text" placeholder="1"
+                 class="mt-2 w-full rounded-md bg-gray-100 border border-gray-300 px-3 py-2.5 text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+        </div>
+
+        <div>
+          <label for="quotation_number" class="block text-sm font-medium text-slate-700">Quotation Number</label>
+          <select id="quotation_number" name="quotation_number"
+                  class="mt-2 w-full rounded-md bg-gray-100 border border-gray-300 px-3 py-2.5 text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <option value="">Select the Quotation</option>
+            <option value="Q-2025-001">Q-2025-001</option>
+            <option value="Q-2025-002">Q-2025-002</option>
+            <option value="Q-2025-003">Q-2025-003</option>
+            <option value="Q-2025-004">Q-2025-004</option>
+            <option value="Q-2025-005">Q-2025-005</option>
+            <option value="Q-2025-006">Q-2025-006</option>
+            <option value="Q-2025-007">Q-2025-007</option>
+            <option value="Q-2025-008">Q-2025-008</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="issue_date" class="block text-sm font-medium text-slate-700">Issue Date</label>
+          <input id="issue_date" name="issue_date" type="date" placeholder="dd/mm/yyyy"
+                 class="mt-2 w-full rounded-md bg-gray-100 border border-gray-300 px-3 py-2.5 text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+        </div>
+
+        <div>
+          <label for="due_date" class="block text-sm font-medium text-slate-700">Due Date</label>
+          <input id="due_date" name="due_date" type="date" placeholder="dd/mm/yyyy"
+                 class="mt-2 w-full rounded-md bg-gray-100 border border-gray-300 px-3 py-2.5 text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+        </div>
+
+        <div>
+          <label for="status" class="block text-sm font-medium text-slate-700">Status</label>
+          <select id="status" name="status"
+                  class="mt-2 w-full rounded-md bg-gray-100 border border-gray-300 px-3 py-2.5 text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <option value="Paid">Paid</option>
+            <option value="Unpaid">Unpaid</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="subtotal" class="block text-sm font-medium text-slate-700">Subtotal</label>
+          <input id="subtotal" name="subtotal" type="number" placeholder="0"
+                 class="mt-2 w-full rounded-md bg-gray-100 border border-gray-300 px-3 py-2.5 text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between">
+            <label for="tax_amount" class="block text-sm font-medium text-slate-700">Tax Amount</label>
+            <span class="text-xs text-slate-500">(7%)</span>
+          </div>
+          <input id="tax_amount" name="tax_amount" type="number" placeholder="0"
+                 class="mt-2 w-full rounded-md bg-gray-100 border border-gray-300 px-3 py-2.5 text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+        </div>
+
+        <div>
+          <label for="total_amount" class="block text-sm font-medium text-slate-700">Total Amount</label>
+          <input id="total_amount" name="total_amount" type="number" placeholder="0"
+                 class="mt-2 w-full rounded-md bg-gray-100 border border-gray-300 px-3 py-2.5 text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+        </div>
+
+        <div class="pt-2">
+          <a href="/html/invoice.html"
+             class="inline-flex items-center rounded-md bg-blue-600 text-white px-4 py-2.5 font-medium hover:bg-blue-700">
+            Create Invoice
+          </a>
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-800 text-white text-center text-xs py-4">
+    Use for Tailwind Demo © Faculty of ICT, Mahidol University
+  </footer>
+</body>
+</html>
