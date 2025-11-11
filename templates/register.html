@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block title %}Register — Online Voting{% endblock %}
+
+{% block head %}
+<style>
+  .secure { -webkit-text-security: disc; }
+  .mono { font-variant-numeric: tabular-nums; letter-spacing: .5px; }
+</style>
+{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <h1 class="hi">Create Your Account</h1>
+    <p class="sub">Register to participate in the democratic process</p>
+
+    <form method="post" action="{{ url_for('register_post') }}" id="registerForm" class="grid grid-2">
+      <div>
+        <div class="label">Citizen ID</div>
+        <input
+          id="reg-cid"
+          class="input mono"
+          name="voter_id"
+          type="password"               
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="Enter 13-digit ID"
+          minlength="13"
+          maxlength="13"
+          pattern="\d{13}"
+          required
+        >
+      </div>
+
+      <div>
+        <div class="label">Phone Number</div>
+        <input
+          id="reg-phone"
+          class="input mono"
+          name="phone_number"
+          type="text"
+          inputmode="numeric"
+          autocomplete="tel"
+          placeholder="Enter phone number"
+          title="Format: 000-000-0000   (10 digits)"
+          required
+        >
+      </div>
+
+      <div>
+        <div class="label">Password</div>
+        <input id="password" class="input" type="password" name="password" placeholder="Create secure password" required>
+        <ul id="checklist" style="font-size:13px;line-height:1.4;color:#6b7280;margin-top:8px;">
+          <li id="len">❌ At least 8 characters</li>
+          <li id="upper">❌ Uppercase letter (A–Z)</li>
+          <li id="lower">❌ Lowercase letter (a–z)</li>
+          <li id="num">❌ Number (0–9)</li>
+          <li id="sym">❌ Special character (!@#$%^&*)</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="label">Confirm Password</div>
+        <input id="confirmPassword" class="input" type="password" name="confirm_password" placeholder="Re-enter password" required>
+        <small id="matchText" style="font-size:13px;color:#6b7280;">Please re-enter your password</small>
+      </div>
+
+      <div class="actions">
+        <button class="btn" type="submit">Continue to Verification</button>
+        <a class="btn outline" href="{{ url_for('login_get') }}">Log In</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const onlyDigits = s => s.replace(/\D/g,'');
+
+  const cid = document.getElementById('reg-cid');
+  cid.addEventListener('input', e => {
+    e.target.value = onlyDigits(e.target.value).slice(0,13); 
+  });
+
+  const phone = document.getElementById('reg-phone');
+  function formatPhone(raw){
+    const d = onlyDigits(raw).slice(0,10);
+    let out = '';
+    if(d.length>0) out += d.slice(0,3);
+    if(d.length>3) out += '-' + d.slice(3,6);
+    if(d.length>6) out += '-' + d.slice(6,10);
+    return out;
+  }
+  phone.addEventListener('input', e => { e.target.value = formatPhone(e.target.value); });
+
+  const pwd = document.getElementById('password');
+  const confirmPwd = document.getElementById('confirmPassword');
+  const checklist = {
+    len: document.getElementById('len'),
+    upper: document.getElementById('upper'),
+    lower: document.getElementById('lower'),
+    num: document.getElementById('num'),
+    sym: document.getElementById('sym')
+  };
+  const matchText = document.getElementById('matchText');
+
+  pwd.addEventListener('input', () => {
+    const v = pwd.value;
+    checklist.len.textContent   = (v.length>=8?'✅':'❌')+' At least 8 characters';
+    checklist.upper.textContent = (/[A-Z]/.test(v)?'✅':'❌')+' Uppercase letter (A–Z)';
+    checklist.lower.textContent = (/[a-z]/.test(v)?'✅':'❌')+' Lowercase letter (a–z)';
+    checklist.num.textContent   = (/\d/.test(v)?'✅':'❌')+' Number (0–9)';
+    checklist.sym.textContent   = (/[!@#$%^&*]/.test(v)?'✅':'❌')+' Special character (!@#$%^&*)';
+  });
+
+  function checkMatch(){
+    if(!confirmPwd.value){ matchText.textContent='Please re-enter your password'; matchText.style.color='#6b7280'; return; }
+    if(pwd.value===confirmPwd.value){ matchText.textContent='✅ Passwords match'; matchText.style.color='#065f46'; }
+    else { matchText.textContent='❌ Passwords do not match'; matchText.style.color='#dc2626'; }
+  }
+  pwd.addEventListener('input', checkMatch);
+  confirmPwd.addEventListener('input', checkMatch);
+
+  document.getElementById('registerForm').addEventListener('submit', (e)=>{
+    const rawCid   = onlyDigits(cid.value);
+    const rawPhone = onlyDigits(phone.value);
+    const v = pwd.value;
+    const strong = v.length>=8 && /[A-Z]/.test(v) && /[a-z]/.test(v) && /\d/.test(v) && /[!@#$%^&*]/.test(v);
+
+    if(rawCid.length!==13){ e.preventDefault(); alert('Citizen ID must be exactly 13 digits.'); return; }
+    if(rawPhone.length!==10){ e.preventDefault(); alert('Phone number must be exactly 10 digits.'); return; }
+    if(!strong){ e.preventDefault(); alert('Password must meet all requirements.'); return; }
+    if(pwd.value!==confirmPwd.value){ e.preventDefault(); alert('Passwords do not match.'); return; }
+
+    cid.value = rawCid;
+    phone.value = rawPhone;
+  });
+</script>
+{% endblock %}

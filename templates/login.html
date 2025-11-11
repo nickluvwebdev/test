@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Login — Online Voting{% endblock %}
+
+{% block head %}
+<style>
+  .secure { -webkit-text-security: disc; }
+</style>
+{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <h1 class="hi">Welcome to Online Voting</h1>
+    <p class="sub">Sign in with your Citizen ID and password</p>
+
+    <form method="post" action="{{ url_for('login_get') }}" id="loginForm" class="grid">
+      
+      <div>
+        <div class="label">Citizen ID</div>
+        <input
+          id="login-cid"
+          class="input secure"
+          name="voter_id"
+          type="password"
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="Enter your 13-digit Citizen ID"
+          minlength="13"
+          maxlength="13"
+          pattern="\d{13}"
+          required
+          oninput="this.value=this.value.replace(/[^0-9]/g,'');"
+        >
+      </div>
+
+      
+      <div>
+        <div class="label">Password</div>
+        <input class="input" type="password" name="password" placeholder="Enter your password" required>
+      </div>
+
+      <div class="actions">
+        <button class="btn" type="submit">Sign In</button>
+        <a class="btn outline" href="{{ url_for('register_get') }}">Register</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  
+  document.getElementById('loginForm').addEventListener('submit', e => {
+    const cid = document.getElementById('login-cid');
+    const raw = cid.value.replace(/\D/g, '');
+    if (raw.length !== 13) {
+      e.preventDefault();
+      alert('Citizen ID must contain exactly 13 digits.');
+      return;
+    }
+    cid.value = raw; 
+  });
+</script>
+{% endblock %}

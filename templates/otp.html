@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Verify OTP — Online Voting{% endblock %}
+{% block content %}
+  <div class="card center-t">
+    <h1 class="hi">Verify Your Phone</h1>
+    <p class="sub">Enter the 6-digit code sent to your phone number</p>
+
+    <form method="post" action="{{ url_for('otp_post') }}">
+      <div class="row center mt-16" id="otp-row">
+        {% for i in range(1,7) %}
+          <input class="input" style="width:52px;text-align:center;font-size:22px" maxlength="1" inputmode="numeric" name="d{{i}}">
+        {% endfor %}
+      </div>
+      <div class="actions center mt-24">
+        <button class="btn" type="submit">Verify & Continue</button>
+      </div>
+    </form>
+
+    <p class="mt-16">Didn’t receive the code? <a href="#" id="resend">Resend Code</a></p>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const boxes=[...document.querySelectorAll('#otp-row input')];
+  boxes[0]?.focus();
+  boxes.forEach((b,i)=>{
+    b.addEventListener('input',e=>{
+      e.target.value=e.target.value.replace(/\D/g,'').slice(0,1);
+      if(e.target.value && i<boxes.length-1) boxes[i+1].focus();
+    });
+    b.addEventListener('keydown',e=>{
+      if(e.key==='Backspace' && !b.value && i>0) boxes[i-1].focus();
+    });
+  });
+  document.getElementById('resend').addEventListener('click',async (e)=>{
+    e.preventDefault();
+    const r=await fetch('{{ url_for("otp_resend") }}',{method:'POST'});
+    const j=await r.json();
+    alert(j.ok?'Resent! (demo OTP: '+j.otp+')':'Failed: '+j.msg);
+  });
+</script>
+{% endblock %}

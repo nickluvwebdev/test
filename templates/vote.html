@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Vote — Online Voting{% endblock %}
+{% block content %}
+  <div class="card">
+    <h1 class="hi">Select Your Candidate</h1>
+    <p class="sub">Choose your preferred candidate – you can only vote once</p>
+
+    <form method="post" action="{{ url_for('vote_post') }}" id="vote-form">
+      <div class="cand-grid">
+        {% for c in candidates %}
+        <label class="cand" data-id="{{ c.id }}">
+          <input type="radio" name="candidate" value="{{ c.id }}" style="display:none">
+          <div class="badge {% if c.badge %}{{ c.badge|lower }}{% endif %} {{ c.cls if c.cls else '' }}">
+            {{ c.badge if c.badge else c.name.split(' ')[0][0] + c.name.split(' ')[-1][0] }}
+          </div>
+          <div class="meta">
+            <strong>{{ c.name }}</strong><br>
+            <small>{{ c.party }}</small>
+          </div>
+        </label>
+        {% endfor %}
+      </div>
+      <div class="actions center mt-24">
+        <button class="btn" id="submitBtn" type="submit" disabled>Submit Vote</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const cards=[...document.querySelectorAll('.cand')];
+  const btn=document.getElementById('submitBtn');
+  cards.forEach(card=>{
+    card.addEventListener('click',()=>{
+      cards.forEach(c=>c.classList.remove('selected'));
+      card.classList.add('selected');
+      card.querySelector('input[type=radio]').checked = true;
+      btn.disabled=false;
+    });
+  });
+</script>
+{% endblock %}

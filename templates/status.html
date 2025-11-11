@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Status — Online Voting{% endblock %}
+{% block content %}
+  {% if result == 'success' %}
+  <div class="card status-wrap status-ok center-t">
+    <h2>✓ Already Voted</h2>
+    <p>Your vote has been successfully recorded and secured.</p>
+  </div>
+  {% else %}
+  <div class="card status-wrap status-bad center-t">
+    <h2>✗ Voted Failed</h2>
+    <p>You already submitted your vote. Each voter can vote only once.</p>
+  </div>
+  {% endif %}
+  <div class="center mt-24">
+    <a class="btn outline" href="{{ url_for('vote_get') }}">Back</a>
+    <a class="btn" style="margin-left:10px" href="{{ url_for('logout') }}">Log out</a>
+  </div>
+{% endblock %}
