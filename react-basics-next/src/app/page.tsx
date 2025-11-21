@@ -1,6 +1,15 @@
 import ProfileCard from "@/components/ProfileCard";
 import AdvancedCounter from "@/components/AdvancedCounter";
 import Userform from "@/components/UserForm";
+/*
+AI Declaration:
+ChatGPT was used to clarify how semantic HTML tags work and when each tag should be used.
+No code was taken verbatim; all implementation decisions were my own.
+
+Reflection:
+Getting explanations from AI helped me understand the “why” behind semantic markup.
+I now feel more comfortable designing accessible, well-structured pages by myself.
+*/
 
 export default function Home() {
   return (
@@ -10,13 +19,13 @@ export default function Home() {
 
         <section className="grid gap-20 sm:grid-cols-2 lg:grid-cols-3">
           <ProfileCard
-            name="Alex Chen"
+            name="alice"
             role="Frontend Dev"
             isActive={false} 
             avatar="https://toppng.com/uploads/preview/icons-logos-emojis-user-icon-png-transparent-11563566676e32kbvynug.png"
           />
           <ProfileCard
-            name="Mia Park"
+            name="bob"
             role="UI/UX Designer"
             isActive={false} 
             avatar="https://toppng.com/uploads/preview/icons-logos-emojis-user-icon-png-transparent-11563566676e32kbvynug.png"

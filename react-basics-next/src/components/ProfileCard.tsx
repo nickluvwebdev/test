@@ -1,3 +1,4 @@
+import styles from "./ProfileCard.module.css";
 interface ProfileCardProps {
   name: string;
   role: string;
@@ -13,21 +14,19 @@ export default function ProfileCard({
 }: ProfileCardProps) {
   return (
     <div
-      className={`card relative ${
-        isActive ? "border-2 border-green-500" : "border border-gray-200"
-      }`}
+      className={styles.card}
     >
       <img
         src={avatar || "https://via.placeholder.com/150"}
         alt={name}
-        className="w-full h-full object-cover rounded-xl"
+        className={styles.avatar}
       />
       {isActive && (
         <span className="absolute top-3 right-3 w-3 h-3 bg-green-500 rounded-full"></span>
       )}
       <div className="mt-10 text-center">
-        <h2 className="text-lg font-bold">{name}</h2>
-        <p className="text-gray-600">{role}</p>
+        <h2 className={styles.name}>{name}</h2>
+        <p className={styles.role}>{role}</p>
         <p
           className={`mt-3 text-sm px-3 py-1 rounded-full inline-block ${
             isActive
